@@ -123,6 +123,43 @@ app.get('/products', async(req,res)=>{
     }
 });
 
+// ======================
+// Delete API
+// ======================
+
+app.delete('/product/:id', async(req,res)=>{
+  try{
+
+    const result = await Product.deleteOne({//deleteOne() -> It returns information about the operation.
+      _id: req.params.id
+    });
+
+    if(result.deletedCount === 0){
+      return res.status(404).send({
+        success:false,
+        message:"Product not found."
+      });
+    }
+
+
+    res.status(200).send({
+      success:true,
+      message:"Product deleted successfully."
+    });
+
+  }catch(err){
+
+    res.status(500).send({
+      success:false,
+      meesage:"Unable to delete product.",
+      error : err.message
+    })
+
+  }
+})
+
+
+
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
 });
