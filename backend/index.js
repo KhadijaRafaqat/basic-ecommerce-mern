@@ -158,7 +158,105 @@ app.delete('/product/:id', async(req,res)=>{
   }
 })
 
+// ======================
+// Update Product API
+// ======================
 
+app.put('/products/:id', async (req,res)=>{
+  try{
+    const result = await Product.updateOne(
+      {_id:req.params.id},
+      req.body
+    );
+
+    if(result.matchedCount === 0){
+      return res.status(404).send({
+        success:false,
+        message:"Product not found."
+      });
+    }
+
+    res.status(200).send({
+      success:true,
+      message:"Product updated Sucessfully."
+    });
+
+  }catch(err){
+
+    res.status(500).send({
+      success:false,
+      message:"Unable to update product.",
+      error:err.message
+    });
+
+  }
+});
+
+// ======================
+// Get Single Product API
+// ======================
+ 
+app.post('/products/:id',async(req,res)=>{
+  try{
+
+    const product = await Product.findOne({
+      _id:req.params.id
+    });
+
+    if(!product){
+      return res.status(404).send({
+        success:false,
+        message:"Product not found."
+      });
+    }
+
+
+    res.status(200).send({
+      success:true,
+      product
+    });
+
+  }catch(err){
+
+    res.status(500).send({
+      success:false,
+      message:"Unable to fetch product.",
+      error:err.message
+    });
+
+  }
+
+})
+
+
+// ======================
+// Search API
+// ======================
+
+app.get('/search/key', async (req,res)=>{
+  try{
+    const result = await Product.find({
+      $or: [
+        {name :{ $regex : req.params.key, $option:"i"}},
+        {category :{ $regex : req.params.key, $option:"i"}},
+        {company :{ $regex : req.params.key, $option:"i"}},
+
+      ]
+    });
+    res.status(200).send({
+      success:true,
+      products:result
+    });
+
+  }catch(err){
+            res.status(500).send({
+            success: false,
+            message: "Unable to search products.",
+            error: err.message
+        });
+
+  }
+})
 
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
