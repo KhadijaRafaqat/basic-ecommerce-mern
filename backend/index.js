@@ -1,10 +1,15 @@
 const express = require("express");
 require("./db/config");
 
+
+const cors = require("cors");
 const User = require("./model/User");
 const Product = require("./model/Product");
 const app = express();
 
+
+app.use(cors());
+app.use(express.json());
 app.use(express.json());
 
 // ======================
@@ -15,6 +20,8 @@ app.post("/register", async (req, res) => {
   try {
     let user = new User(req.body);
     let result = await user.save();
+
+console.log("Saved user:", result);
 
     result = result.toObject(); //converts mongoose document to normal JS object
     delete result.password; //removes the password from that object.
