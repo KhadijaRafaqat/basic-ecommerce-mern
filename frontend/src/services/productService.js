@@ -1,6 +1,15 @@
 import { API_URL } from "./config";
 
-export async function getProducts() {}
+export async function getProducts() {
+    const response = await fetch(`${API_URL}/products`);
+    const result = await response.json();
+
+
+    return{
+        ok: response.ok,
+        data:result,
+    }
+}
 
 export async function addProduct(productData) {
     const response = await fetch (`${API_URL}/add-product`,{
