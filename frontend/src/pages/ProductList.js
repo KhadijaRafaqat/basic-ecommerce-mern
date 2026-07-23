@@ -1,9 +1,10 @@
 import {Link} from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getProducts, deleteProduct } from '../services/productService';
+import { getProducts, deleteProduct, searchProducts } from '../services/productService';
 
 
 function ProductList() {
+    const [searchKey, setSearchKey] = useState("");
 
     const [products, setProducts] = useState([]);
 
@@ -15,8 +16,6 @@ function ProductList() {
 
     const loadProducts = async () => {
         const response = await getProducts();
-
-
         if (response.ok) {
             setProducts(response.data.products);
         }
@@ -32,9 +31,29 @@ function ProductList() {
             alert(response.data.message);
         }
     }
+const handleSearch = async (key) => {
 
+    setSearchKey(key);
+
+    if (key === "") {
+        loadProducts();
+        return;
+    }
+
+    const response = await searchProducts(key);
+
+    if (response.ok) {
+        setProducts(response.data.products);
+    }
+};
     return(
   <div>
+    <input
+    type="text"
+    placeholder="Search products..."
+    value={searchKey}
+    onChange={(e) => handleSearch(e.target.value)}
+/>
     <h1>Product List</h1>
 
     {products.map((item) => (

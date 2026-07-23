@@ -1,4 +1,7 @@
 import { API_URL } from "./config";
+
+
+
 export async function getProduct(id) {
   const response = await fetch(`${API_URL}/products/${id}`);
   const result = await response.json();
@@ -69,4 +72,13 @@ export async function deleteProduct(id) {
     }
 }
 
-export async function searchProducts() {}
+export async function searchProducts(key) {
+    const response = await fetch(`${API_URL}/search/${key}`);
+
+    const result = await response.json();
+
+    return {
+        ok: response.ok,
+        data: result,
+    };
+}

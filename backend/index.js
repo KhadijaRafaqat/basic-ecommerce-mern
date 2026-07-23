@@ -240,13 +240,13 @@ app.get('/products/:id',async(req,res)=>{
 // Search API
 // ======================
 
-app.get('/search/key', async (req,res)=>{
+app.get('/search/:key', async (req,res)=>{
   try{
     const result = await Product.find({
       $or: [
-        {name :{ $regex : req.params.key, $option:"i"}},
-        {category :{ $regex : req.params.key, $option:"i"}},
-        {company :{ $regex : req.params.key, $option:"i"}},
+        {name :{ $regex : req.params.key, $options:"i"}},
+        {category :{ $regex : req.params.key, $options:"i"}},
+        {company :{ $regex : req.params.key, $options:"i"}},
 
       ]
     });
