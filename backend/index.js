@@ -203,7 +203,7 @@ app.put('/products/:id', async (req,res)=>{
 // Get Single Product API
 // ======================
  
-app.post('/products/:id',async(req,res)=>{
+app.get('/products/:id',async(req,res)=>{
   try{
 
     const product = await Product.findOne({

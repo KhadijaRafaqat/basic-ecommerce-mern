@@ -1,4 +1,13 @@
 import { API_URL } from "./config";
+export async function getProduct(id) {
+  const response = await fetch(`${API_URL}/products/${id}`);
+  const result = await response.json();
+
+  return {
+    ok: response.ok,
+    data: result,
+  };
+}
 
 export async function getProducts() {
     const response = await fetch(`${API_URL}/products`);
@@ -28,8 +37,36 @@ export async function addProduct(productData) {
 
 }
 
-export async function updateProduct() {}
+export async function updateProduct(id, productData) {
 
-export async function deleteProduct() {}
+    const response = await fetch(`${API_URL}/products/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(productData),
+    });
+
+    const result = await response.json();
+
+    return {
+        ok: response.ok,
+        data: result,
+    };
+}
+
+export async function deleteProduct(id) {
+    const response = await fetch(`${API_URL}/product/${id}`,{
+        method:"DELETE",
+    });
+
+    const result = await response.json();
+
+
+    return {
+        ok:response.ok,
+        data:result,
+    }
+}
 
 export async function searchProducts() {}

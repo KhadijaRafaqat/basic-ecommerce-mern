@@ -15,7 +15,7 @@ function Navbar() {
             </li>
 
             <li>
-                <Link to='/update/123'>Update</Link>
+                {/* <Link to='/uSpdate/${item._id}'>Update</Link> */}
             </li>
 
             <li>
